@@ -59,6 +59,13 @@
                 }
             },
             {
+                "name": "install unzip",
+                "apt": {
+                    "name": "unzip",
+                    "allow_unauthenticated": "yes"
+                }
+            },
+            {
                 "name": "add x2go repo key",
                 "apt_key": {
                     "keyserver": "keys.gnupg.net",
