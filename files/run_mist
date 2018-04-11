@@ -4,4 +4,4 @@
 . /etc/default/geth
 
 # Fire up mist
-mist --rpc ~/.ethereum/$NETWORK/geth.ipc
+/opt/Mist/mist --rpc ~/.ethereum/$NETWORK/geth.ipc
