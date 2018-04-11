@@ -124,6 +124,15 @@
                 }
             },
             {
+                "name": "ensure /opt/Mist exists",
+                "file": {
+                    "path": "/opt/Mist",
+                    "recurse": "yes",
+                    "state": "directory",
+                    "owner": "root"
+                }
+            },
+            {
                 "name": "install mist",
                 "unarchive": {
                     "src": "https://github.com/ethereum/mist/releases/download/v0.10.0/Mist-linux64-0-10-0.zip",
