@@ -131,6 +131,15 @@
                 }
             },
             {
+                "name": "uninstall old mist",
+                "apt": {
+                    "name": "mist",
+                    "state": "absent",
+                    "purge": "yes",
+                    "allow_unauthenticated": "yes"
+                }
+            },
+            {
                 "name": "ensure /opt/Mist exists",
                 "file": {
                     "path": "/opt/Mist",
