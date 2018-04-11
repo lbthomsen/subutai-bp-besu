@@ -1,44 +1,49 @@
-[
-    {
-        "hosts": "all",
-        "gather_facts": "false",
-        "remote_user": "root",
-        "tasks": [
-            {
-                "name": "Update",
-                "raw": "apt-get -y --allow-unauthenticated update || true"
-            },
-            {
-                "name": "Ensure python is available",
-                "raw": "test -e /usr/bin/python || apt install -y --allow-unauthenticated python-minimal"
-            },
-            {
-                "name": "Ensure python-apt is available",
-                "raw": "test -d /usr/share/python-apt || apt install -y --allow-unauthenticated python-apt"
-            },
-            {
-                "name": "Upgrade",
-                "raw": "apt-get -y --allow-unauthenticated upgrade"
-            }
-        ]
-    },
-    {
-        "hosts": "biab",
-        "remote_user": "root",
-        "tasks": [
-            {
-                "name": "add x2go user",
-                "user": {
-                    "name": "x2go",
-                    "comment": "X2GO User",
-                    "group": "users",
-                    "groups": "sudo",
-                    "generate_ssh_key": "yes",
-                    "shell": "/bin/bash"
-                }
-            },
-            {
-                "name": "install aptitude",
+
+Warning - not used - work in progress - json version current!
+
+---
+
+- hosts: all
+  gather_facts: false
+  remote_user: root
+  tasks: 
+
+    - name: Update
+      raw: apt-get -y --allow-unauthenticated update || true
+
+    - name: Ensure python is available
+      raw: test -e /usr/bin/python || apt install -y --allow-unauthenticated python-minimal
+
+    - name: Ensure python-apt is available
+      raw: test -d /usr/share/python-apt || apt install -y --allow-unauthenticated python-apt
+
+    - name: Upgrade
+      raw: apt-get -y --allow-unauthenticated upgrade
+
+- hosts: biab
+  remote_user: root
+  tasks: 
+
+    - name: add x2go user
+      user: 
+        name: x2go
+        comment: X2GO User
+        group: users
+        groups: sudo
+        generate_ssh_key: yes
+        shell: /bin/bash
+        
+    - name: install aptitude
+      apt: 
+        name: aptitude
+        allow_unauthenticated: yes
+
+    - name: install dirmngr
+      apt: 
+        name: dirmngr
+        allow_unauthenticated: yes
+      
+      
                 "apt": {
                     "name": "aptitude",
                     "allow_unauthenticated": "yes"
