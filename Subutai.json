@@ -1,7 +1,7 @@
 {
     "name": "${environmentName}",
     "description": "Blockchain in a Box",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "author": "https://github.com/lbthomsen",
     "ssh-key": "lth", 
     "containers": [
@@ -70,7 +70,7 @@
             "validation": "[0-9]+"
         },
         "ethereumPassword": {
-            "description": "Enter private blockchail account password",
+            "description": "Enter private blockchain account password",
             "type": "string",
             "default": "somethingrather",
             "validation": "[a-zA-Z0-9]+"
