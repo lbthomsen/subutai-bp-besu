@@ -4,9 +4,6 @@
         "gather_facts": "false",
         "remote_user": "root",
         "tasks": [
-            { 
-
-            }, 
             {
                 "name": "DPKG Unsafe I/O", 
                 "raw": "test -e /etc/dpkg/dpkg.conf.d/unsafe-io || echo force-unsafe-io > /etc/dpkg/dpkg.cfg.d/unsafe-io"
