@@ -1,7 +1,7 @@
 {
     "name": "${environmentName}",
     "description": "Blockchain in a Box",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "author": "https://github.com/lbthomsen",
     "ssh-key": "lth", 
     "containers": [
@@ -15,7 +15,7 @@
     "peer-criteria": [
         {
             "name": "BIAB-GROUP",
-            "max-price": "25"
+            "max-price": "100"
         }
     ],
     "ansible-configuration": {
