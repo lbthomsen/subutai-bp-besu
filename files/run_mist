@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Load defaults
+. /etc/default/geth
+
+# Fire up mist
+/opt/Mist/mist --rpc ~/.ethereum/$NETWORK/geth.ipc
