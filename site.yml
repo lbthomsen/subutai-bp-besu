@@ -14,8 +14,63 @@
 
     - name: Install required debs
       apt:
-        name: "{{ item }}"
+        name: 
+          - dirmngr
+          - apt-transport-https
+          - aptitude
+        state: latest 
+        
+    - name: Add x2go user
+      user:
+        name: x2go
+        comment: X2Go User
+        group: users
+        groups: sudo
+        generate_ssh_key: yes
+        shell: /bin/bash
+
+    - name: Add apt keys
+      apt_key:
+        keyserver: keys.gnupg.net
+        id: "{{ item }}" 
+      with_items:
+        - E1F958385BFE2B6E
+        - 1655A0AB68576280
+        - 1C52189C923F6CA9
+        - EB3E94ADBE1229CF
+
+    - name: Add repos
+      apt_repository: 
+        repo: "{{item}}"
         state: present
-      with_items: 
-        - dirmngr
-        - apt-transport-https
+      with_items:
+        - deb http://packages.x2go.org/debian stretch extras main
+        - deb https://deb.nodesource.com/node_12.x stretch main
+        - deb http://ppa.launchpad.net/ethereum/ethereum/ubuntu xenial main
+        - deb https://packages.microsoft.com/repos/vscode stable main
+
+    - name: Install required debs
+      apt:
+        name: 
+          - mate-desktop
+          - x2goserver
+          - mate-session-manager
+          - mate-applets
+          - mate-backgrounds
+          - mate-control-center
+          - mate-desktop-environment
+          - dconf-cli
+          - ethereum
+          - nodejs
+          - code
+          - git
+          - firefox-esr
+        state: latest
+
+    - name: remove visual studio repo
+      apt_repository: 
+        repo: deb https://packages.microsoft.com/repos/vscode stable main
+        state: absent
+        update_cache: yes
+        
+        
