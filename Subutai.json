@@ -47,7 +47,7 @@
         "environmentName": {
             "description": "Enter the environment name",
             "type": "string",
-            "default": "mist",
+            "default": "besu",
             "validation": "[a-zA-Z0-9]+"
         },
         "containerSize": {
@@ -56,14 +56,8 @@
             "default": "HUGE",
             "validation": "LARGE,HUGE"
         }, 
-        "ethereumNetwork": {
-            "description": "Select ethereum network",
-            "type": "enum",
-            "default": "testnet",
-            "validation": "MAINNET,ROPSTEN,RINKEBY,GOERLI,DEV"
-        }, 
         "ethereumNetworkId": {
-            "description": "Enter private blockchain ID (if network = DEV!)",
+            "description": "Enter private blockchain ID",
             "type": "string",
             "default": "",
             "validation": "[0-9]+"

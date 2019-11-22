@@ -2,19 +2,19 @@
 
 . /etc/default/besu
 
-if [ "$NETWORK" = "private" ]; then
+if [ "$NETWORK" = "DEV" ]; then
 
-    echo "Running Private Network"
+    echo "Running Private Development Network"
 
     if [ -n "$NETWORK_ID" ]; then
 
         # Check if .ethereum exists
-        [ -d ~/.ethereum ] || mkdir ~/.ethereum
+        [ -d ~/.besu ] || mkdir ~/.besu
 
         # Check if generis file has been generated
-        if [ ! -f ~/.ethereum/genesis.json ]; then
+        if [ ! -f ~/.besu/genesis.json ]; then
 
-cat <<-EOF  >~/.ethereum/genesis.json 
+cat <<-EOF  >~/.besu/genesis.json 
     {
         "config": {
             "chainId": $NETWORK_ID,
@@ -29,8 +29,8 @@ cat <<-EOF  >~/.ethereum/genesis.json
 EOF
         fi
 
-        # Check if .ethereum/private exists
-        [ -d ~/.ethereum/private ] || mkdir ~/.ethereum/private
+        # Check if .besu/dev exists
+        [ -d ~/.besu/DEV ] || mkdir ~/.besu/DEV
 
         # Check if chain has been created
         if [ ! -d ~/.ethereum/private/geth ]; then
