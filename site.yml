@@ -73,4 +73,129 @@
         state: absent
         update_cache: yes
         
+    - name: create local directories
+      file:
+        path: "{{ item }}" 
+        recurse: yes
+        state: directory
+        owner: x2go
+      with_items: 
+        - /home/x2go/.config/autostart
+        - /home/x2go/Desktop
+        - /home/x2go/docs
+
+    - name: copy check_wallpaper.sh
+      copy:
+        src: ./files/check_wallpaper.sh
+        dest: /usr/local/bin
+        mode: 755
+
+    - name: copy check_wallpaper.desktop
+      copy: 
+        src: ./files/check_wallpaper.desktop
+        dest: /home/x2go/.config/autostart
+        owner: x2go
+        group: users
+
+    - name: copy wallpaper.jpg
+      copy: 
+        src: ./files/wallpaper.jpg
+        dest: /home/x2go
+        owner: x2go
+        group: users
+
+    - name: copy show_docs.sh
+      copy:
+        src: ./files/show_docs.sh
+        dest: /usr/local/bin
+        mode: 755
+
+    - name: copy show_docs.desktop
+      copy:
+        src: ./files/show_docs.desktop
+        dest: /home/x2go/.config/autostart
+        owner: x2go
+        group: users
+
+    - name: copy docs
+      copy:
+        src: ./files/docs
+        dest: /home/x2go/docs
+        owner: x2go
+        group: users
+
+    - name: copy Mist.desktop
+      copy: 
+        src: ./files/Mist.desktop
+        dest: /home/x2go/Desktop
+        owner: x2go
+        group: users
+
+    - name: fix sudoers
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: "^%sudo"
+        line: "%sudo ALL=NOPASSWD: ALL"
+
+    - name: copy besu.service
+      copy: 
+        src: ./files/besu.service
+        dest: /lib/systemd/system
+      
+    - name: copy besu.default
+      copy: 
+        src: ./files/besu.default
+        dest: /etc/default/besu
+
+    - name: copy start_besu
+      copy: 
+        src: ./files/start_besu
+        dest: /usr/local/sbin/start_besu
+        mode: 755
+
+    - name: copy run_mist
+      copy:
+        src: ./files/run_mist
+        dest: /usr/local/bin/run_mist
+        mode: 755
+
+    - name: set network
+      lineinfile: 
+        path: /etc/default/besu
+        state: present
+        regexp: "^NETWORK="
+        line: "NETWORK={{ ethereum_network }}"
+
+    - name: set network id
+      lineinfile: 
+        path: /etc/default/besu
+        state: present
+        regexp: "^NETWORK_ID="
+        line: "NETWORK_ID={{ ethereum_network_id }}"
+
+    - name: set private blockchain pwd
+      lineinfile:
+        path: /home/x2go/.ethereumpwd
+        state: present
+        create: yes
+        owner: x2go
+        group: users
+        insertafter: EOF
+        line: "{{ ethereum_password }}"
+
+    - name: install truffle
+      npm:
+        name: truffle@latest
+        global: yes
+
+    - name: fugly visual studio fix - grrrr
+      command: "sed -i 's/BIG-REQUESTS/_IG-REQUESTS/' /usr/lib/x86_64-linux-gnu/libxcb.so.1"
         
+    - name: fire up besu
+      systemd:
+        name: besu
+        masked: no
+        enabled: yes
+        state: started
+        daemon_reload: yes
