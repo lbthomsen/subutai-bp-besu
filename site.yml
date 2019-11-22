@@ -67,6 +67,8 @@
           - firefox-esr
           - openjdk-11-jdk
           - openssl
+          - rhash
+          - libdigest-sha3-perl
         state: latest
 
     - name: remove visual studio repo
@@ -90,9 +92,14 @@
     - name: run ldconfig
       command: ldconfig
 
+    - name: download besu binary
+      get_url: 
+        url: https://bintray.com/api/ui/download/hyperledger-org/besu-repo/besu-1.3.5.tar.gz
+        dest: /var/tmp/besu-1.3.5.tar.gz
+
     - name: install besu binary
       unarchive:
-        src: https://bintray.com/api/ui/download/hyperledger-org/besu-repo/besu-1.3.5.tar.gz
+        src: /var/tmp/besu-1.3.5.tar.gz
         dest: /usr/local
         owner: root
         remote_src: yes
@@ -103,6 +110,42 @@
         dest: /usr/local/bin/besu
         owner: root
         state: link
+
+    - name: generate a private and public key
+      shell: openssl ecparam -name secp256k1 -genkey -noout | openssl ec -text -noout > /home/x2go/key
+      args:
+        creates: /home/x2go/key
+      become: yes
+      become_user: x2go
+
+    - name: extract public key
+      shell: cat /home/x2go/key | grep pub -A 5 | tail -n +2 | tr -d '\n[:space:]:' | sed 's/^04//' > /home/x2go/pub
+      args:
+        creates: /home/x2go/pub
+      become: yes
+      become_user: x2go
+
+    - name: extract private key
+      shell: cat /home/x2go/key | grep priv -A 3 | tail -n +2 | tr -d '\n[:space:]:' | sed 's/^00//' > /home/x2go/priv
+      args: 
+        creates: /home/x2go/priv
+      become: yes
+      become_user: x2go
+
+    - name: generate address
+      shell: cat /home/x2go/pub | keccak-256sum -x -l | tr -d ' -' | tail -c 41 > /home/x2go/address
+      args:
+        creates: /home/x2go/address
+      become: yes
+      become_user: x2go
+
+    - name: get address
+      shell: cat /home/x2go/address
+      register: ethereum_address
+
+    - name: show address
+      debug:
+        msg: "0x{{ethereum_address.stdout}}" 
         
     - name: create local directories
       file:
