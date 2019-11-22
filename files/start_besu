@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. /etc/default/geth
+. /etc/default/besu
 
 if [ "$NETWORK" = "private" ]; then
 
