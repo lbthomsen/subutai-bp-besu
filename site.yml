@@ -146,7 +146,7 @@
     - name: show address
       debug:
         msg: "0x{{ethereum_address.stdout}}" 
-        
+
     - name: create local directories
       file:
         path: "{{ item }}" 
@@ -157,6 +157,24 @@
         - /home/x2go/.config/autostart
         - /home/x2go/Desktop
         - /home/x2go/docs
+        - /home/x2go/.besu
+        - /home/x2go/.besu/{{ ethereum_network_id }}
+
+    - name: get besu key
+      shell: besu --data-path=/home/x2go/.besu/{{ ethereum_network_id}} public-key export-address
+      become: yes
+      become_user: x2go
+      register: besu_public_key_address
+
+    - name: show besu public key
+      debug: 
+        msg: "{{ besu_public_key_address.stdout_lines[1] }}"
+
+    - name: install genesis.json
+      template:
+        src: files/genesis.json
+        dest: /home/x2go/.besu/genesis.json
+        owner: x2go
 
     - name: copy check_wallpaper.sh
       copy:
@@ -213,50 +231,15 @@
         line: "%sudo ALL=NOPASSWD: ALL"
 
     - name: copy besu.service
-      copy: 
+      template: 
         src: ./files/besu.service
         dest: /lib/systemd/system
       
-    - name: copy besu.default
-      copy: 
-        src: ./files/besu.default
-        dest: /etc/default/besu
-
-    - name: copy start_besu
-      copy: 
-        src: ./files/start_besu
-        dest: /usr/local/sbin/start_besu
-        mode: "0755"
-
     - name: copy run_mist
       copy:
         src: ./files/run_mist
         dest: /usr/local/bin/run_mist
         mode: "0755"
-
-    - name: set network
-      lineinfile: 
-        path: /etc/default/besu
-        state: present
-        regexp: "^NETWORK="
-        line: "NETWORK={{ ethereum_network }}"
-
-    - name: set network id
-      lineinfile: 
-        path: /etc/default/besu
-        state: present
-        regexp: "^NETWORK_ID="
-        line: "NETWORK_ID={{ ethereum_network_id }}"
-
-    - name: set private blockchain pwd
-      lineinfile:
-        path: /home/x2go/.ethereumpwd
-        state: present
-        create: yes
-        owner: x2go
-        group: users
-        insertafter: EOF
-        line: "{{ ethereum_password }}"
 
     - name: install truffle
       npm:

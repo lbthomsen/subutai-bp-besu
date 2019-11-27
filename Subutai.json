@@ -22,16 +22,12 @@
         "ansible-playbook": "site.yml",
         "extra-vars": [
             {
-                "key": "ethereum_network", 
-                "value": "${ethereumNetwork}"
-            }, 
-            {
                 "key": "ethereum_network_id", 
                 "value": "${ethereumNetworkId}"
             }, 
             {
-                "key": "ethereum_password", 
-                "value": "${ethereumPassword}"
+                "key": "ethereum_initial_balance", 
+                "value": "${ethereumInitialBalance}"
             }
         ], 
         "groups": [
@@ -61,12 +57,12 @@
             "type": "string",
             "default": "",
             "validation": "[0-9]+"
-        },
-        "ethereumPassword": {
-            "description": "Enter private blockchain account password",
+        }, 
+        "ethereumInitialBalance": {
+            "description": "Enter initial balance in ether",
             "type": "string",
-            "default": "somethingrather",
-            "validation": "[a-zA-Z0-9]+"
+            "default": "",
+            "validation": "[0-9]+"
         }
     }
 }

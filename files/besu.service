@@ -3,12 +3,10 @@ Description=Run Besu
 
 [Service]
 Type=simple
-EnvironmentFile=-/etc/default/besu
-ExecStart=/usr/local/sbin/start_besu
+ExecStart=/usr/local/bin/besu --data-path=/home/x2go/.besu/{{ethereum_network_id}} --genesis-file=/home/x2go/.besu/genesis.json --network-id={{ ethereum_network_id }} --rpc-http-enabled --rpc-http-api=ETH,NET,CLIQUE --host-whitelist="*" --rpc-http-cors-origins="all"
 Restart=on-failure
 User=x2go
 Group=users
-LimitNICE=+10
 
 [Install]
 WantedBy=multi-user.target
