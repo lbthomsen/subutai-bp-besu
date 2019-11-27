@@ -2,10 +2,10 @@
 <html ng-app="docs">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Besu in a Box</title>
+	<title>Besu in a Box</title>
 
 </head>
 
@@ -17,9 +17,19 @@
 		Welcome to Besu in a Box.
 	</p>
 
-	<p>
-		Your private key is in <pre>~/priv</pre>
-	</p>
+	<h2>Account Information</h2>
+
+	<table>
+		<tr>
+			<td align="right">Private Key:</td>
+			<td>0x{{ethereum_private_key.stdout}}</td>
+		</tr>
+		<tr>
+			<td align="right">Ethereum Address:</td>
+			<td>0x{{ethereum_address.stdout}}</td>
+		</tr>
+	</table>
+
 
 </body>
 

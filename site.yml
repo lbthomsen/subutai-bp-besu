@@ -143,6 +143,10 @@
       shell: cat /home/x2go/address
       register: ethereum_address
 
+    - name: get private key
+      shell: cat /home/x2go/priv
+      register: ethereum_private_key
+
     - name: show address
       debug:
         msg: "0x{{ethereum_address.stdout}}" 
@@ -210,8 +214,8 @@
         group: users
 
     - name: copy docs
-      copy:
-        src: ./files/docs
+      template:
+        src: ./files/docs/index.html
         dest: /home/x2go/docs
         owner: x2go
         group: users

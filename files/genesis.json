@@ -16,7 +16,7 @@
     "timestamp": "0x5c51a607",
     "alloc": {
         "{{ethereum_address.stdout}}": {
-            "balance": "{{ethereum_initial_balance}}"
+            "balance": "{{ethereum_initial_balance}}000000000000000000"
         }
     },
     "number": "0x0",
