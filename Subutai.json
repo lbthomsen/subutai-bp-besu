@@ -1,7 +1,7 @@
 {
     "name": "${environmentName}",
     "description": "Besu in a Box",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "author": "https://github.com/lbthomsen",
     "ssh-key": "lth", 
     "containers": [
